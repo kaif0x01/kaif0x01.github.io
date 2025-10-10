@@ -1,0 +1,27 @@
+<!-- Educational concept - testing application handlers -->
+<script>
+// Researchers test if applications improperly handle URLs
+function testURLSchemes() {
+    const testSchemes = [
+        'itms://music.apple.com/WebObjects',      // iTunes Store
+        'musics://music.apple.com/WebObjects',    // Music app variations
+        'apple-music://music.apple.com/WebObjects',
+        'x-apple-music://music.apple.com/WebObjects',
+        'file:///Applications/Calculator.app',
+        'itms-apps://music.apple.com/WebObjects',
+        'macappstore://music.apple.com/WebObjects'
+    ];
+    
+    testSchemes.forEach(scheme => {
+        try {
+            const link = document.createElement('a');
+            link.href = `${scheme}//`;
+            document.body.appendChild(link);
+            link.click();
+            console.log(`Attempted: ${scheme}`);
+        } catch(e) {
+            console.log(`Failed: ${scheme}`);
+        }
+    });
+}
+</script>
