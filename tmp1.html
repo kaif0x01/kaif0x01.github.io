@@ -1,0 +1,28 @@
+<!-- Educational example - file access test -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Test Page</title>
+</head>
+<body>
+    <h2>File Access Test Concept</h2>
+    <button onclick="testLocalFileAccess()">Test File Access</button>
+    
+    <script>
+    function testLocalFileAccess() {
+        // Educational concept - testing if app reads local files
+        // In real testing, researchers would use fetch/XHR with file:// URLs
+        const testFiles = [
+            'file:///etc/hosts',
+            'file:///Users/Shared/test.txt'
+        ];
+        
+        testFiles.forEach(file => {
+            fetch(file)
+                .then(response => alert(`Accessed: ${file}`))
+                .catch(err => alert(`Failed: ${file}`));
+        });
+    }
+    </script>
+</body>
+</html>
