@@ -7,6 +7,7 @@
 <body>
     <h2>File Access Test Concept</h2>
     <button onclick="testLocalFileAccess()">Test File Access</button>
+    <img src='resource://welcome.png'/>
     
     <script>
     function testLocalFileAccess() {
@@ -15,7 +16,8 @@
         const testFiles = [
             'file:///etc/hosts',
             'file:///Users/Shared/test.txt',
-            'file:///Applications/AppStore.app/Frameworks/AppStoreKit.framework/JavaScript/release'
+            'file:///Applications/AppStore.app/Frameworks/AppStoreKit.framework/JavaScript/release',
+            'resource://welcome.png'
         ];
         
         testFiles.forEach(file => {
