@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Sign-In Popup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .apple-popup {
+            width: 100%;
+            max-width: 320px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .popup-header {
+            padding: 24px 24px 16px;
+            text-align: center;
+        }
+        
+        .popup-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+        
+        .popup-description {
+            font-size: 14px;
+            color: #86868b;
+            line-height: 1.4;
+        }
+        
+        .popup-body {
+            padding: 0 24px 24px;
+        }
+        
+        .email-display {
+            background-color: #f5f5f7;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: #1d1d1f;
+            font-weight: 500;
+        }
+        
+        .password-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .password-field:focus {
+            outline: none;
+            border-color: #007AFF;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .forgot-password a {
+            color: #007AFF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .popup-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .popup-button {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .cancel-button {
+            background-color: transparent;
+            border: 1px solid #d2d2d7;
+            color: #1d1d1f;
+        }
+        
+        .cancel-button:hover {
+            background-color: #f5f5f7;
+        }
+        
+        .signin-button {
+            background-color: #007AFF;
+            border: none;
+            color: white;
+        }
+        
+        .signin-button:hover {
+            background-color: #0071e3;
+        }
+        
+        .signin-button:disabled {
+            background-color: #a7a7a7;
+            cursor: not-allowed;
+        }
+        
+        .trigger-button {
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        
+        .trigger-button:hover {
+            background-color: #0071e3;
+        }
+    </style>
+</head>
+<body>
+    <button class="trigger-button" id="showPopup">Show Apple Sign-In</button>
+    
+    <div class="popup-overlay" id="popupOverlay" style="display: none;">
+        <div class="apple-popup">
+            <div class="popup-header">
+                <h1 class="popup-title">Sign in to your Apple Account</h1>
+                <p class="popup-description">Sign in to Apple Media Services using your Apple Account. Don't have an account? You can create one for free.</p>
+            </div>
+            <div class="popup-body">
+                <div class="email-display">kaif2k17@gmail.com</div>
+                <input type="password" class="password-field" id="passwordInput" placeholder="Password">
+                <div class="forgot-password">
+                    <a href="#" id="forgotPassword">Forgot password?</a>
+                </div>
+                <div class="popup-buttons">
+                    <button class="popup-button cancel-button" id="cancelButton">Cancel</button>
+                    <button class="popup-button signin-button" id="signinButton" disabled>Sign In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showPopupButton = document.getElementById('showPopup');
+            const popupOverlay = document.getElementById('popupOverlay');
+            const cancelButton = document.getElementById('cancelButton');
+            const signinButton = document.getElementById('signinButton');
+            const passwordInput = document.getElementById('passwordInput');
+            const forgotPasswordLink = document.getElementById('forgotPassword');
+            
+            // Show popup when trigger button is clicked
+            showPopupButton.addEventListener('click', function() {
+                popupOverlay.style.display = 'flex';
+                passwordInput.value = '';
+                signinButton.disabled = true;
+                passwordInput.focus();
+            });
+            
+            // Close popup when cancel button is clicked
+            cancelButton.addEventListener('click', function() {
+                popupOverlay.style.display = 'none';
+            });
+            
+            // Close popup when clicking outside the popup
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === popupOverlay) {
+                    popupOverlay.style.display = 'none';
+                }
+            });
+            
+            // Enable sign in button when password is entered
+            passwordInput.addEventListener('input', function() {
+                signinButton.disabled = passwordInput.value.length === 0;
+            });
+            
+            // Handle sign in
+            signinButton.addEventListener('click', function() {
+                if (passwordInput.value.length > 0) {
+                    alert('Signing in with password: ' + passwordInput.value);
+                    popupOverlay.style.display = 'none';
+                }
+            });
+            
+            // Handle forgot password
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Redirecting to password reset...');
+            });
+            
+            // Allow submitting with Enter key
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && passwordInput.value.length > 0) {
+                    signinButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
