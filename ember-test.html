@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Apple Music Security Test</h2>
+<button onclick="runQuickTest()">Run Quick Test</button>
+<button onclick="testMessageHandlers()">Test Message Handlers</button>
+<button onclick="testFileAccess()">Test File Access</button>
+<button onclick="testURLSchemes()">Test URL Schemes</button>
+
+<div id="results" style="background:#f0f0f0; padding:10px; margin:10px 0;"></div>
+
+<script>
+const resultsDiv = document.getElementById('results');
+
+function addResult(message) {
+    resultsDiv.innerHTML += `<p>${message}</p>`;
+}
+
+function runQuickTest() {
+    addResult('=== Starting Quick Test ===');
+    
+    // Test for common bridges
+    const targets = ['webkit', 'Music', 'AppleMusic', 'bridge', 'external'];
+    let found = [];
+    
+    targets.forEach(target => {
+        if (window[target]) {
+            found.push(target);
+        }
+    });
+    
+    if (found.length > 0) {
+        addResult(`✅ Found objects: ${found.join(', ')}`);
+        alert('Found objects: ' + found.join(', '));
+    } else {
+        addResult('❌ No common objects found');
+        alert('No common objects detected');
+    }
+}
+
+function testMessageHandlers() {
+    addResult('=== Testing Message Handlers ===');
+    
+    if (window.webkit && window.webkit.messageHandlers) {
+        const handlers = Object.keys(window.webkit.messageHandlers);
+        if (handlers.length > 0) {
+            addResult(`✅ Found handlers: ${handlers.join(', ')}`);
+            
+            // Try to use first handler
+            const firstHandler = handlers[0];
+            try {
+                window.webkit.messageHandlers[firstHandler].postMessage('security_test');
+                addResult(`✅ Sent message to: ${firstHandler}`);
+                alert(`Message sent to: ${firstHandler}`);
+            } catch (e) {
+                addResult(`❌ Failed to send to: ${firstHandler}`);
+            }
+        } else {
+            addResult('❌ No message handlers found');
+        }
+    } else {
+        addResult('❌ No webkit.messageHandlers found');
+    }
+}
+
+function testFileAccess() {
+    addResult('=== Testing File Access ===');
+    
+    // Try to read a common file
+    fetch('file:///etc/hosts')
+        .then(response => response.text())
+        .then(data => {
+            addResult('✅ CAN read local files!');
+            alert('CRITICAL: Local file access possible!');
+        })
+        .catch(error => {
+            addResult('❌ Local file access blocked');
+        });
+}
+
+function testURLSchemes() {
+    addResult('=== Testing URL Schemes ===');
+    
+    const schemes = [
+        'music://',
+        'itms://', 
+        'itmss://',
+        'x-apple-music://'
+    ];
+    
+    let workingSchemes = [];
+    
+    schemes.forEach(scheme => {
+        try {
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = scheme;
+            document.body.appendChild(iframe);
+            setTimeout(() => document.body.removeChild(iframe), 1000);
+            workingSchemes.push(scheme);
+        } catch (e) {
+            // Scheme not supported
+        }
+    });
+    
+    if (workingSchemes.length > 0) {
+        addResult(`✅ Working schemes: ${workingSchemes.join(', ')}`);
+        alert('URL schemes work: ' + workingSchemes.join(', '));
+    } else {
+        addResult('❌ No URL schemes worked');
+    }
+}
+</script>
+</body>
+</html>
