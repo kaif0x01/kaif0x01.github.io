@@ -11,7 +11,7 @@
 <key>signout</key>
 <true/>
 <key>url</key>
-<string>https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?ls=1&mt=8&cc=us</string>
+<string>https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware</string>
 </dict>
 </dict>
 </plist>
