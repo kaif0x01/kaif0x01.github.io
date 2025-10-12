@@ -1,0 +1,19 @@
+<Document xmlns="http://www.apple.com/itms/">
+<Protocol>
+<plist version="1.0">
+<dict>
+<key>pings</key>
+<array/>
+<key>action</key>
+<dict>
+<key>kind</key>
+<string>Reset</string>
+<key>signout</key>
+<true/>
+<key>url</key>
+<string>https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?ls=1&mt=8&cc=us</string>
+</dict>
+</dict>
+</plist>
+</Protocol>
+</Document>
