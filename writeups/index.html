@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writeups — Mohammad Kaif</title>
+  <meta name="description" content="Security research writeups by Mohammad Kaif — web, API and Android vulnerabilities." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="nav-wrap">
+    <nav class="nav container">
+      <a href="../index.html" class="logo mono"><span class="accent">~/</span>kaif0x01</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">← Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section container archive-main">
+    <p class="mono kicker"><a href="../index.html">$ cd ~</a></p>
+    <h1 class="archive-title">Writeups <span class="dim">/</span> <span class="accent">2</span></h1>
+    <p class="archive-sub">Security research — web, API and Android vulnerabilities.</p>
+    <div class="writeups-archive">
+        <a class="writeup reveal" href="hacking-nothing-unauthorised-access-to-nothing-s-aws-s3-buckets/">
+          <div class="writeup-meta mono">
+            <span class="tag">cybersecurity</span><span class="tag">aws-s3</span><span class="tag">nothing-phone</span>
+            <time datetime="2025-06-23">Jun 2025</time>
+          </div>
+          <h4>Hacking Nothing! Unauthorised access to Nothing’s AWS S3 Buckets</h4>
+          <p>Hi everyone! I am Mohammad Kaif and I will share one my findings which I found in one of Nothing’s app. Introduction In this writeup I will share how I…</p>
+          <span class="card-link mono">read writeup →</span>
+        </a>
+        <a class="writeup reveal" href="story-of-account-takeover-using-social-login-with-mass-assignment-vulnerability-/">
+          <div class="writeup-meta mono">
+            <span class="tag">information-security</span><span class="tag">bug-bounty</span><span class="tag">security</span>
+            <time datetime="2021-06-12">Jun 2021</time>
+          </div>
+          <h4>Story of Account Takeover : Using Social Login with Mass Assignment Vulnerability to hack accounts !</h4>
+          <p>Story of Account Takeover : Using Social Login with Mass Assignment Vulnerability to hack accounts ! Hey everyone, this is Mohammad Kaif aka mkahmad an 18…</p>
+          <span class="card-link mono">read writeup →</span>
+        </a>
+    </div>
+    <nav class="pager" aria-label="Writeups pagination" hidden></nav>
+  </main>
+
+  <footer class="footer">
+    <p class="mono">
+      <span class="dim">built with</span> ❤️ <span class="dim">·</span>
+      <a href="https://x.com/_mkahmad" target="_blank" rel="noopener">@_mkahmad</a>
+      <span class="dim">· © 2026 Mohammad Kaif</span>
+    </p>
+  </footer>
+
+  <script>
+  (function () {
+    var PAGE_SIZE = 6;
+    var list = document.querySelector('.writeups-archive');
+    var pager = document.querySelector('.pager');
+    var cards = Array.prototype.slice.call(list.querySelectorAll('.writeup'));
+    if (!pager || cards.length <= PAGE_SIZE) return;
+    var pages = Math.ceil(cards.length / PAGE_SIZE);
+    var current = 1;
+
+    function button(label, page, opts) {
+      opts = opts || {};
+      var b = document.createElement('button');
+      b.className = 'pager-btn' + (opts.active ? ' active' : '');
+      b.textContent = label;
+      if (opts.disabled) b.disabled = true;
+      if (opts.active) b.setAttribute('aria-current', 'page');
+      b.addEventListener('click', function () {
+        current = page;
+        render();
+        list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return b;
+    }
+
+    function render() {
+      cards.forEach(function (card, i) {
+        card.style.display = (Math.floor(i / PAGE_SIZE) + 1 === current) ? '' : 'none';
+      });
+      pager.innerHTML = '';
+      pager.appendChild(button('‹ Prev', current - 1, { disabled: current === 1 }));
+      for (var p = 1; p <= pages; p++) {
+        pager.appendChild(button(String(p), p, { active: p === current }));
+      }
+      pager.appendChild(button('Next ›', current + 1, { disabled: current === pages }));
+    }
+
+    pager.hidden = false;
+    render();
+  })();
+  </script>
+</body>
+</html>

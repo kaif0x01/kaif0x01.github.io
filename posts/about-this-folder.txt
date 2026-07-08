@@ -1,0 +1,19 @@
+# Self-authored writeups
+
+Drop Markdown files here (one per writeup), then run:
+
+    python3 manage.py build
+
+Each file needs frontmatter at the top:
+
+    ---
+    title: My Writeup Title
+    date: 2026-07-08
+    tags: web, csrf, auth
+    description: One-line summary for the card.
+    ---
+
+    Markdown body...
+
+Optional frontmatter: `slug:` (custom URL), `link:` (external "original" link).
+Scaffold a new one with: python3 manage.py new-writeup "My Title"
